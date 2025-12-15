@@ -1,0 +1,36 @@
+# Fichiers compilés Java
+*.class
+
+# Fichiers de package
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Fichiers IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+*.swp
+*.swo
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers temporaires
+*.tmp
+*.log
+*.bak
+*~
+
+# Build directories
+bin/
+build/
+target/
+out/

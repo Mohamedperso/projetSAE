@@ -5,8 +5,7 @@ import java.util.List;
 public class GenerateurGroupe {
 
     private static final int MIN_FILLES = 4;
-    private static final int SEUIL_FORCE_BRUTE = 12; // En dessous de 12 étudiants, on peut faire du Force Brute
-                                                     // rapidement
+    private static final int SEUIL_FORCE_BRUTE = 12; // En dessous de 12 étudiants, on peut faire du Force Brute rapidement
 
     /*
      * C'est cette fonction que l'application doit appeler.
@@ -121,8 +120,7 @@ public class GenerateurGroupe {
      * À utiliser uniquement pour des petits groupes (< 15 étudiants) ou test.
      */
 
-    // Variables globales pour stocker le meilleur résultat trouvé pendant la
-    // récursion
+    // Variables globales pour stocker le meilleur résultat trouvé pendant la récursion
     private List<Groupe> meilleureSolution = null;
     private double meilleurScore = Double.MAX_VALUE;
 
@@ -211,10 +209,7 @@ public class GenerateurGroupe {
         }
     }
 
-    /*
-     * Distribue les étudiants en "Serpentin" (1,2,3 puis 3,2,1) pour bien mélanger
-     * les niveaux
-     */
+    /* Distribue les étudiants en "Serpentin" (1,2,3 puis 3,2,1) pour bien mélanger les niveaux */
     private void distribuerEnSerpentin(List<Etudiant> etudiants, List<Groupe> groupes) {
         int nbGroupes = groupes.size();
 

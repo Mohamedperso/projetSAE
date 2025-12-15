@@ -5,7 +5,8 @@ import java.util.List;
 public class GenerateurGroupe {
 
     private static final int MIN_FILLES = 4;
-    private static final int SEUIL_FORCE_BRUTE = 12; // En dessous de 12 étudiants, on peut faire du Force Brute rapidement
+    private static final int SEUIL_FORCE_BRUTE = 12; // En dessous de 12 étudiants, on peut faire du Force Brute
+                                                     // rapidement
 
     /*
      * C'est cette fonction que l'application doit appeler.
@@ -69,8 +70,7 @@ public class GenerateurGroupe {
             return groupes;
         } else {
             System.out.println("Echec Glouton Moyenne : Contraintes non respectées.");
-            // On retourne quand même les groupes pour pouvoir analyser pourquoi ça a raté
-            return groupes;
+            return null; // Retourne null pour indiquer un échec
         }
     }
 
@@ -110,7 +110,7 @@ public class GenerateurGroupe {
             return groupes;
         } else {
             System.out.println("Echec Glouton BAC.");
-            return groupes;
+            return null; // Retourne null pour indiquer un échec
         }
     }
 
@@ -121,7 +121,8 @@ public class GenerateurGroupe {
      * À utiliser uniquement pour des petits groupes (< 15 étudiants) ou test.
      */
 
-    // Variables globales pour stocker le meilleur résultat trouvé pendant la récursion
+    // Variables globales pour stocker le meilleur résultat trouvé pendant la
+    // récursion
     private List<Groupe> meilleureSolution = null;
     private double meilleurScore = Double.MAX_VALUE;
 
@@ -173,7 +174,8 @@ public class GenerateurGroupe {
         // On essaie de l'ajouter dans chaque groupe 1 par 1
         for (Groupe g : groupesActuels) {
 
-            // Petite opti : Si le groupe dépasse déjà la taille max théorique + 1, on évite (élagage)
+            // Petite opti : Si le groupe dépasse déjà la taille max théorique + 1, on évite
+            // (élagage)
             // Mais pour une Force Brute pure pédagogique, on peut laisser tester.
 
             g.ajouterEtudiant(etudiantAplacer);
@@ -209,7 +211,10 @@ public class GenerateurGroupe {
         }
     }
 
-    /* Distribue les étudiants en "Serpentin" (1,2,3 puis 3,2,1) pour bien mélanger les niveaux */
+    /*
+     * Distribue les étudiants en "Serpentin" (1,2,3 puis 3,2,1) pour bien mélanger
+     * les niveaux
+     */
     private void distribuerEnSerpentin(List<Etudiant> etudiants, List<Groupe> groupes) {
         int nbGroupes = groupes.size();
 

@@ -47,9 +47,7 @@ public class TestGenerateur {
         generateur.genererGroupesAutomatique(grandGroupe, 5);
     }
 
-    /**
-     * Compare les performances des deux algo gloutons sur plusieurs essais.
-     */
+    /* Compare les performances des deux algo gloutons sur plusieurs essais. */
     public static void comparerAlgorithmes(int nbTests, int taillePromo, int nbGroupes) {
         GenerateurGroupe gen = new GenerateurGroupe();
 
@@ -100,9 +98,7 @@ public class TestGenerateur {
         }
     }
 
-    /**
-     * Recalcule le score pour les stats (Ecart Moyenne + Ecart Bac)
-     */
+    /* Recalcule le score pour les stats (Ecart Moyenne + Ecart Bac) */
     private static double calculerScore(List<Groupe> groupes) {
         double minMoy = 20.0, maxMoy = 0.0;
         double minBac = Double.MAX_VALUE, maxBac = 0.0;

@@ -5,8 +5,7 @@ import java.util.List;
 public class GenerateurGroupe {
 
     private static final int MIN_FILLES = 4;
-    private static final int SEUIL_FORCE_BRUTE = 12; // En dessous de 12 étudiants, on peut faire du Force Brute
-                                                     // rapidement
+    private static final int SEUIL_FORCE_BRUTE = 12; // En dessous de 12 étudiants, on peut faire du Force Brute rapidement
 
     /*
      * C'est cette fonction que l'application doit appeler.
@@ -75,7 +74,7 @@ public class GenerateurGroupe {
         }
     }
 
-    /**
+    /*
      * Algorithme Glouton 2 : Équilibrer les types de BAC (Puissance BAC)
      * Stratégie Choisi :
      * 1. On place d'abord les filles (comme pour l'autre algo).
@@ -115,15 +114,14 @@ public class GenerateurGroupe {
         }
     }
 
-    /**
+    /*
      * Algorithme Force Brute (Backtracking)
      * Teste toutes les combinaisons possibles pour trouver LA meilleure.
      * ATTENTION : Très long si beaucoup d'étudiants (Complexité exponentielle).
      * À utiliser uniquement pour des petits groupes (< 15 étudiants) ou test.
      */
 
-    // Variables globales pour stocker le meilleur résultat trouvé pendant la
-    // récursion
+    // Variables globales pour stocker le meilleur résultat trouvé pendant la récursion
     private List<Groupe> meilleureSolution = null;
     private double meilleurScore = Double.MAX_VALUE;
 
@@ -148,7 +146,7 @@ public class GenerateurGroupe {
         }
     }
 
-    /**
+    /*
      * Fonction Récursive (Backtracking)
      * Essaie de mettre l'étudiant 'indexEtu' dans chaque groupe possible.
      */
@@ -175,8 +173,7 @@ public class GenerateurGroupe {
         // On essaie de l'ajouter dans chaque groupe 1 par 1
         for (Groupe g : groupesActuels) {
 
-            // Petite opti : Si le groupe dépasse déjà la taille max théorique + 1, on évite
-            // (élagage)
+            // Petite opti : Si le groupe dépasse déjà la taille max théorique + 1, on évite (élagage)
             // Mais pour une Force Brute pure pédagogique, on peut laisser tester.
 
             g.ajouterEtudiant(etudiantAplacer);
@@ -192,7 +189,7 @@ public class GenerateurGroupe {
 
     // Les fonctions qui aident à rendre le code principal plus lisible :
 
-    /** Crée une liste de N groupes vides */
+    /* Crée une liste de N groupes vides */
     private List<Groupe> initialiserGroupes(int n) {
         List<Groupe> l = new ArrayList<>();
         for (int i = 0; i < n; i++) {
@@ -201,7 +198,7 @@ public class GenerateurGroupe {
         return l;
     }
 
-    /** Distribue les filles une par une dans chaque groupe */
+    /* Distribue les filles une par une dans chaque groupe */
     private void distribuerFillesEquitablement(List<Etudiant> filles, List<Groupe> groupes) {
         int indexGroupe = 0;
         for (Etudiant f : filles) {
@@ -212,10 +209,7 @@ public class GenerateurGroupe {
         }
     }
 
-    /**
-     * Distribue les étudiants en "Serpentin" (1,2,3 puis 3,2,1) pour bien mélanger
-     * les niveaux
-     */
+    /* Distribue les étudiants en "Serpentin" (1,2,3 puis 3,2,1) pour bien mélanger les niveaux */
     private void distribuerEnSerpentin(List<Etudiant> etudiants, List<Groupe> groupes) {
         int nbGroupes = groupes.size();
 
@@ -235,7 +229,7 @@ public class GenerateurGroupe {
         }
     }
 
-    /** Vérifie toutes les contraintes du sujet */
+    /* Vérifie toutes les contraintes du sujet */
     private boolean estValide(List<Groupe> groupes, int totalEtudiants) {
         int nbGroupes = groupes.size();
 
@@ -260,7 +254,7 @@ public class GenerateurGroupe {
         return true;
     }
 
-    /** Calcule le score final (On veut le MINIMISER) */
+    /* Calcule le score final (On veut le MINIMISER) */
     private double calculerScoreTotal(List<Groupe> groupes) {
         if (groupes == null || groupes.isEmpty())
             return Double.MAX_VALUE;
@@ -287,7 +281,7 @@ public class GenerateurGroupe {
         return (maxMoy - minMoy) + (maxBac - minBac);
     }
 
-    /** Copie profonde pour sauvegarder une solution */
+    /* Copie profonde pour sauvegarder une solution */
     private List<Groupe> copierGroupes(List<Groupe> source) {
         List<Groupe> copie = new ArrayList<>();
         for (Groupe g : source) {

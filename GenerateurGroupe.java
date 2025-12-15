@@ -8,44 +8,40 @@ public class GenerateurGroupe {
     private static final int SEUIL_FORCE_BRUTE = 12; // En dessous de 12 étudiants, on peut faire du Force Brute
                                                      // rapidement
 
-    /**
-     * Méthode "Intelligente" pour l'Application
+    /*
      * C'est cette fonction que l'application doit appeler.
      * Elle choisit automatiquement le meilleur algo selon la taille de la promo.
      */
+
     public List<Groupe> genererGroupesAutomatique(List<Etudiant> promo, int nbGroupeVoulus) {
         if (promo.size() <= SEUIL_FORCE_BRUTE) {
-            System.out.println(
-                    "Effectif réduit (" + promo.size() + ") -> Utilisation FORCE BRUTE (Optimisation Parfaite)");
+            System.out.println("Effectif réduit (" + promo.size() + ") -> Utilisation FORCE BRUTE");
             return algoForceBrute(promo, nbGroupeVoulus);
         } else {
-            System.out
-                    .println("Effectif important (" + promo.size() + ") -> Utilisation GLOUTON (Optimisation Rapide)");
-            // On peut choisir Glouton BAC ou Moyenne selon la préférence
-            return gloutonBac(promo, nbGroupeVoulus);
+            System.out.println("Effectif important (" + promo.size() + ") -> Utilisation GLOUTON");
+            return gloutonBac(promo, nbGroupeVoulus); // ou return gloutonMoyenne(promo, nbGroupeVoulus);
         }
     }
 
-    /**
+    /*
      * Algorithme Glouton 1 : Équilibrer les Moyennes
-     * Stratégie :
+     * Stratégie Choisi :
      * 1. On place d'abord les filles pour respecter la contrainte de mixité.
      * 2. On trie le reste des étudiants par Moyenne Générale.
-     * 3. On les distribue en mode "Serpentin" (aller-retour) pour équilibrer les
-     * niveaux.
+     * 3. On les distribue en Serpentin (aller-retour) pour équilibrer les niveaux.
      */
+
     public List<Groupe> gloutonMoyenne(List<Etudiant> promo, int nbGroupeVoulus) {
         System.out.println("--- Lancement Algo Glouton Moyenne ---");
 
-        // 1. Préparation des groupes
+        // Préparation des groupes
         List<Groupe> groupes = initialiserGroupes(nbGroupeVoulus);
 
-        // 2. Séparation Filles / Garçons (ou autres)
+        // Séparation Filles / Garçons
         List<Etudiant> filles = new ArrayList<>();
         List<Etudiant> autres = new ArrayList<>();
 
         for (Etudiant e : promo) {
-            // Supposons 'F' pour Fille.
             if (e.getGenre() == 'F') {
                 filles.add(e);
             } else {
@@ -53,22 +49,22 @@ public class GenerateurGroupe {
             }
         }
 
-        // Vérification rapide de faisabilité (Message d'avertissement uniquement)
+        // Vérification de faisabilité
         if (filles.size() < MIN_FILLES * nbGroupeVoulus) {
             System.out.println("Attention : Pas assez de filles pour garantir " + MIN_FILLES + " par groupe !");
         }
 
-        // 3. Distribution des Filles (Priorité absolue)
+        // Distribution des Filles (Priorité absolue)
         distribuerFillesEquitablement(filles, groupes);
 
-        // 4. Tri des autres par Moyenne (du meilleur au moins bon)
+        // Tri des autres par Moyenne (du meilleur au moins bon)
         // Utilisation d'un Comparator pour trier sur le double 'MoyenneGenerale'
         autres.sort(Comparator.comparingDouble(Etudiant::getMoyenneGenerale).reversed());
 
-        // 5. Distribution des autres (Serpentin pour équilibrer les niveaux)
+        // Distribution des autres (Serpentin pour équilibrer les niveaux)
         distribuerEnSerpentin(autres, groupes);
 
-        // 6. Vérification et Résultat
+        // Vérification et Résultat
         if (estValide(groupes, promo.size())) {
             System.out.println("Succès Glouton Moyenne ! Score : " + calculerScoreTotal(groupes));
             return groupes;
@@ -81,7 +77,7 @@ public class GenerateurGroupe {
 
     /**
      * Algorithme Glouton 2 : Équilibrer les types de BAC (Puissance BAC)
-     * Stratégie :
+     * Stratégie Choisi :
      * 1. On place d'abord les filles (comme pour l'autre algo).
      * 2. On trie le reste par "Puissance BAC" (Coefficient).
      * 3. On distribue pour lisser les profils techniques/généraux.
@@ -170,7 +166,7 @@ public class GenerateurGroupe {
                     meilleureSolution = copierGroupes(groupesActuels);
                 }
             }
-            return; // Fin de cette branche
+            return;
         }
 
         // L'étudiant à placer maintenant
@@ -179,8 +175,8 @@ public class GenerateurGroupe {
         // On essaie de l'ajouter dans chaque groupe 1 par 1
         for (Groupe g : groupesActuels) {
 
-            // Petite optimisation : Si le groupe dépasse déjà la taille max théorique + 1,
-            // on évite (élagage)
+            // Petite opti : Si le groupe dépasse déjà la taille max théorique + 1, on évite
+            // (élagage)
             // Mais pour une Force Brute pure pédagogique, on peut laisser tester.
 
             g.ajouterEtudiant(etudiantAplacer);
@@ -188,15 +184,13 @@ public class GenerateurGroupe {
             // On continue avec l'étudiant suivant (Appel Récursif)
             explorateurDeSolutions(promo, indexEtu + 1, groupesActuels);
 
-            // Backtracking (Retour en arrière) :
-            // On enlève l'étudiant pour pouvoir le tester dans le groupe suivant au
-            // prochain tour de boucle
+            // Backtracking : On enlève l'étudiant pour pouvoir le tester dans le groupe
+            // suivant au prochain tour de boucle
             g.retirerEtudiant(etudiantAplacer);
         }
     }
 
-    // --- METH0DES UTILITAIRES (HELPERS) ---
-    // Ces fonctions aident à rendre le code principal plus lisible
+    // Les fonctions qui aident à rendre le code principal plus lisible :
 
     /** Crée une liste de N groupes vides */
     private List<Groupe> initialiserGroupes(int n) {
@@ -276,7 +270,7 @@ public class GenerateurGroupe {
 
         for (Groupe g : groupes) {
             double moy = g.getMoyenneGroupe();
-            double bac = g.getScoreBacTotal(); // Somme des coefficients BAC
+            double bac = g.getScoreBacTotal();
 
             if (moy < minMoy)
                 minMoy = moy;
